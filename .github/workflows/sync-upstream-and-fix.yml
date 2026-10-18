@@ -39,6 +39,7 @@ env:
     package-lock.json
     src/extension.ts
     tsconfig.json
+    .github/workflows/publish.yml
 
 jobs:
   # ── Stable: sync main from latest upstream release tag ────────────────────
