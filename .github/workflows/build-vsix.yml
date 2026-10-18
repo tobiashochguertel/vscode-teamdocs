@@ -35,3 +35,15 @@ jobs:
           name: teamdocs-vsix
           path: "*.vsix"
           retention-days: 30
+
+      - name: Attach VSIX to rolling dev prerelease
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git tag -f dev >/dev/null 2>&1 && git push -f origin dev >/dev/null 2>&1 || true
+          gh release create dev *.vsix \
+            --repo ${{ github.repository }} \
+            --title "dev build (${{ github.sha }})" \
+            --prerelease \
+            --notes "Automated dev.patch build. Install: gh release download dev -p '*.vsix' && code --install-extension teamdocs-*.vsix" \
+            --clobber
