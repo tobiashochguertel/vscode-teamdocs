@@ -1,0 +1,58 @@
+[tools]
+node = "22"
+"pipx:reuse" = "latest"
+
+# ── Development ──────────────────────────────────────────────────────────────
+
+[tasks."dev:deps"]
+description = "Install npm dependencies"
+run = "npm ci"
+
+[tasks."dev:compile"]
+description = "Bundle the extension with esbuild"
+run = "node esbuild.js"
+
+[tasks."dev:compile:test"]
+description = "Bundle the VS Code test suites"
+run = "npm run compile:test"
+
+[tasks."dev:watch"]
+description = "Rebuild on change"
+run = "node esbuild.js --watch"
+
+[tasks."dev:typecheck"]
+description = "Typecheck src/ and test/"
+run = "npm run typecheck"
+
+[tasks."dev:lint"]
+description = "ESLint src/"
+run = "npm run lint"
+
+[tasks."dev:lint-license"]
+description = "REUSE license compliance check"
+run = "reuse lint"
+
+[tasks."test:unit"]
+description = "Pure-logic unit tests (node:test)"
+run = "npm run test:unit"
+
+[tasks."test:integration"]
+description = "Extension-host integration + e2e tests (spawns VS Code)"
+run = "npm test"
+depends = ["dev:compile", "dev:compile:test"]
+
+[tasks."check"]
+description = "typecheck + lint + license lint + unit tests"
+depends = ["dev:typecheck", "dev:lint", "dev:lint-license", "test:unit"]
+
+# ── Deployment ───────────────────────────────────────────────────────────────
+
+[tasks."deploy:package"]
+description = "Build the distributable .vsix package"
+run = "./scripts/package-vsix.sh"
+depends = ["check"]
+
+[tasks."deploy:publish"]
+description = "Publish .vsix to VS Code Marketplace + Open VSX"
+run = "./scripts/publish.py"
+depends = ["deploy:package"]

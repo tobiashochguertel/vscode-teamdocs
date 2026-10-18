@@ -1,0 +1,12 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: vscode-teamdocs
+Upstream-Contact: Lucas Arantes
+Source: https://github.com/lucasprag/vscode-teamdocs
+
+Files: *
+Copyright: 2024 Lucas Arantes
+License: MIT
+
+Files: mise.toml .reuse/dep5 LICENSES/* .github/patches/* .github/scripts/* .github/workflows/build-vsix.yml .github/workflows/sync-upstream-and-fix.yml .github/workflows/reuse.yml .github/FORK-STRATEGY.md scripts/* test/** src/copypath.ts .vscode-test.mjs tsconfig.test.json
+Copyright: 2024 Lucas Arantes, 2026 Tobias Hochgürtel
+License: MIT
