@@ -37,6 +37,16 @@
       {
         "command": "teamDocs.review.rate",
         "title": "Team Docs: Leave a Review"
+      },
+      {
+        "command": "teamDocs.copyPath",
+        "title": "Copy Path",
+        "category": "Team Docs"
+      },
+      {
+        "command": "teamDocs.copyRelativePath",
+        "title": "Copy Relative Path",
+        "category": "Team Docs"
       }
     ],
     "menus": {
@@ -45,6 +55,18 @@
           "command": "teamDocs.search",
           "when": "view == teamdocs",
           "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "teamDocs.copyPath",
+          "when": "view == teamdocs && viewItem =~ /file|folder/",
+          "group": "9_copypath@1"
+        },
+        {
+          "command": "teamDocs.copyRelativePath",
+          "when": "view == teamdocs && viewItem =~ /file|folder/",
+          "group": "9_copypath@2"
         }
       ]
     },

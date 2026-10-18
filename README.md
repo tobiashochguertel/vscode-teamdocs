@@ -15,6 +15,7 @@ A dedicated **Team Docs** icon is added to the Activity Bar. Click it to see the
 - The view title is automatically set to the name of your docs folder.
 - Folders are listed before files, and entries are sorted alphabetically.
 - Files and folders matching VS Code's `files.exclude` setting are hidden automatically (e.g. `.git`, `node_modules`).
+- Right-click any file or folder to copy its absolute or relative path to the clipboard.
 
 ![Showing the team documentation](media/docs-readme.png)
 
@@ -51,6 +52,8 @@ TeamDocs reads from a single, globally configured docs folder — so the same do
 | `Team Docs: Search` | Fuzzy-find and open a file from your docs folder. |
 | `Team Docs: Open Settings` | Jump straight to the TeamDocs configuration. |
 | `Team Docs: Leave a Review` | Open the review page on the VS Code Marketplace or Open VSX. |
+| `Team Docs: Copy Path` | Copy the absolute path of the selected file or folder to the clipboard. Also available in the explorer's right-click menu. |
+| `Team Docs: Copy Relative Path` | Copy the path relative to your docs folder to the clipboard. Also available in the explorer's right-click menu. |
 
 ## Extension Settings
 

@@ -30,6 +30,41 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.executeCommand("workbench.action.openSettings", "teamdocs");
   });
 
+  // view/item/context handlers receive the tree element ({uri, relative, ...});
+  // with multi-select the second arg is the array of selected elements.
+  const selectedItems = function (item: any, items: any): any[] {
+    const list = Array.isArray(items) && items.length ? items : [item];
+    return list.filter((i: any) => i && (i instanceof vscode.Uri || i.uri));
+  };
+
+  vscode.commands.registerCommand(
+    "teamDocs.copyPath",
+    async function (item: any, items: any) {
+      const paths = selectedItems(item, items).map((i: any) =>
+        i instanceof vscode.Uri ? i.fsPath : i.uri.fsPath
+      );
+      if (paths.length) {
+        await vscode.env.clipboard.writeText(paths.join("\n"));
+      }
+    }
+  );
+
+  vscode.commands.registerCommand(
+    "teamDocs.copyRelativePath",
+    async function (item: any, items: any) {
+      const workspaceRoot = getRootPath();
+      const paths = selectedItems(item, items).map((i: any) => {
+        const fsPath = i instanceof vscode.Uri ? i.fsPath : i.uri.fsPath;
+        return workspaceRoot && fsPath.startsWith(workspaceRoot)
+          ? fsPath.slice(workspaceRoot.length).replace(/^[/\\]/, "")
+          : fsPath;
+      });
+      if (paths.length) {
+        await vscode.env.clipboard.writeText(paths.join("\n"));
+      }
+    }
+  );
+
   vscode.commands.registerCommand("teamDocs.search", async () => {
     const workspaceRoot = getRootPath();
     if (workspaceRoot) {

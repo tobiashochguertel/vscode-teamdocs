@@ -2,6 +2,11 @@
 
 All notable changes to this extension will be documented in this file following the structure inspired by [Keep a Changelog](https://keepachangelog.com/).
 
+## [Unreleased]
+
+### Added
+- `Copy Path` and `Copy Relative Path` context menu items on files and folders in the Team Docs explorer.
+
 ## [0.3.8] - 2026-08-28
 
 ### Fixed
