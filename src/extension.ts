@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { TeamDocsExplorerProvider } from "./explorer";
 import { getRootPath, getExcludePatterns, isMarkdownFile } from "./util";
+import { absolutePaths, relativePaths } from "./copypath";
 import { ReviewManager } from "./review";
 
 export function activate(context: vscode.ExtensionContext) {
@@ -30,19 +31,10 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.executeCommand("workbench.action.openSettings", "teamdocs");
   });
 
-  // view/item/context handlers receive the tree element ({uri, relative, ...});
-  // with multi-select the second arg is the array of selected elements.
-  const selectedItems = function (item: any, items: any): any[] {
-    const list = Array.isArray(items) && items.length ? items : [item];
-    return list.filter((i: any) => i && (i instanceof vscode.Uri || i.uri));
-  };
-
   vscode.commands.registerCommand(
     "teamDocs.copyPath",
     async function (item: any, items: any) {
-      const paths = selectedItems(item, items).map((i: any) =>
-        i instanceof vscode.Uri ? i.fsPath : i.uri.fsPath
-      );
+      const paths = absolutePaths(item, items);
       if (paths.length) {
         await vscode.env.clipboard.writeText(paths.join("\n"));
       }
@@ -52,13 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
   vscode.commands.registerCommand(
     "teamDocs.copyRelativePath",
     async function (item: any, items: any) {
-      const workspaceRoot = getRootPath();
-      const paths = selectedItems(item, items).map((i: any) => {
-        const fsPath = i instanceof vscode.Uri ? i.fsPath : i.uri.fsPath;
-        return workspaceRoot && fsPath.startsWith(workspaceRoot)
-          ? fsPath.slice(workspaceRoot.length).replace(/^[/\\]/, "")
-          : fsPath;
-      });
+      const paths = relativePaths(getRootPath(), item, items);
       if (paths.length) {
         await vscode.env.clipboard.writeText(paths.join("\n"));
       }

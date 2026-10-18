@@ -111,18 +111,25 @@
   "scripts": {
     "vscode:prepublish": "node esbuild.js --production",
     "compile": "node esbuild.js",
+    "compile:test": "esbuild test/suite/*.test.ts --bundle --platform=node --format=cjs --external:vscode --external:mocha --outdir=out/test/suite",
     "watch": "node esbuild.js --watch",
-    "typecheck": "tsc -p ./ --noEmit",
-    "pretest": "npm run typecheck && npm run lint",
+    "typecheck": "tsc -p ./ --noEmit && tsc -p tsconfig.test.json --noEmit",
+    "pretest": "npm run typecheck && npm run lint && npm run compile:test",
+    "test": "vscode-test",
+    "test:unit": "esbuild test/unit/copypath.test.ts --bundle --platform=node --format=cjs --outfile=out-test/unit/copypath.test.cjs && node --test out-test/unit/",
     "lint": "eslint src"
   },
   "devDependencies": {
+    "@types/mocha": "^10.0.10",
     "@types/node": "^25.8.0",
-    "esbuild": "^0.28.0",
     "@types/vscode": "^1.120.0",
     "@typescript-eslint/eslint-plugin": "^8.16.0",
     "@typescript-eslint/parser": "^8.16.0",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.1.0",
+    "esbuild": "^0.28.0",
     "eslint": "^10.3.0",
+    "mocha": "^12.0.3",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.3"
   },
