@@ -3309,7 +3309,7 @@ index 09e4a45..7ca4de1 100644
        "version": "0.1.0",
        "resolved": "https://registry.npmjs.org/yocto-queue/-/yocto-queue-0.1.0.tgz",
 diff --git a/package.json b/package.json
-index 45eede5..7e56a86 100644
+index 45eede5..ceeee0e 100644
 --- a/package.json
 +++ b/package.json
 @@ -37,6 +37,16 @@
@@ -3359,7 +3359,7 @@ index 45eede5..7e56a86 100644
 +    "typecheck": "tsc -p ./ --noEmit && tsc -p tsconfig.test.json --noEmit",
 +    "pretest": "npm run typecheck && npm run lint && npm run compile:test",
 +    "test": "vscode-test",
-+    "test:unit": "esbuild test/unit/copypath.test.ts --bundle --platform=node --format=cjs --outfile=out-test/unit/copypath.test.cjs && node --test out-test/unit/",
++    "test:unit": "esbuild test/unit/copypath.test.ts --bundle --platform=node --format=cjs --outfile=out-test/unit/copypath.test.cjs && node --test out-test/unit/*.test.cjs",
      "lint": "eslint src"
    },
    "devDependencies": {
