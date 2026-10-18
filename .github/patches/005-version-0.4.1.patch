@@ -1,0 +1,13 @@
+diff --git a/package.json b/package.json
+index 2c23233..b27e257 100644
+--- a/package.json
++++ b/package.json
+@@ -2,7 +2,7 @@
+   "name": "teamdocs",
+   "displayName": "TeamDocs",
+   "description": "Your team's Markdown documentation, one click away in the Activity Bar — searchable from any project, no context switching.",
+-  "version": "0.4.0",
++  "version": "0.4.1",
+   "publisher": "TobiasHochguertel",
+   "homepage": "https://github.com/tobiashochguertel/vscode-teamdocs/blob/main/README.md",
+   "repository": {
