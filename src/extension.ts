@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { TeamDocsExplorerProvider } from "./explorer";
 import { getRootPath, getExcludePatterns, isMarkdownFile } from "./util";
+import { absolutePaths, relativePaths } from "./copypath";
 import { ReviewManager } from "./review";
 
 export function activate(context: vscode.ExtensionContext) {
@@ -29,6 +30,26 @@ export function activate(context: vscode.ExtensionContext) {
   vscode.commands.registerCommand("teamDocs.openSettings", function () {
     vscode.commands.executeCommand("workbench.action.openSettings", "teamdocs");
   });
+
+  vscode.commands.registerCommand(
+    "teamDocs.copyPath",
+    async function (item: any, items: any) {
+      const paths = absolutePaths(item, items);
+      if (paths.length) {
+        await vscode.env.clipboard.writeText(paths.join("\n"));
+      }
+    }
+  );
+
+  vscode.commands.registerCommand(
+    "teamDocs.copyRelativePath",
+    async function (item: any, items: any) {
+      const paths = relativePaths(getRootPath(), item, items);
+      if (paths.length) {
+        await vscode.env.clipboard.writeText(paths.join("\n"));
+      }
+    }
+  );
 
   vscode.commands.registerCommand("teamDocs.search", async () => {
     const workspaceRoot = getRootPath();
