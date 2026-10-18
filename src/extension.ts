@@ -6,7 +6,7 @@ import { ReviewManager } from "./review";
 
 export function activate(context: vscode.ExtensionContext) {
   const review = new ReviewManager(context, {
-    extensionId: "lucasprag.teamdocs",
+    extensionId: "TobiasHochguertel.teamdocs",
     extensionName: "TeamDocs",
     commandPrefix: "teamDocs.review",
     gracePeriodDays: 14,

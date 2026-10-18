@@ -3,15 +3,15 @@
   "displayName": "TeamDocs",
   "description": "Your team's Markdown documentation, one click away in the Activity Bar — searchable from any project, no context switching.",
   "version": "0.3.8",
-  "publisher": "lucasprag",
-  "homepage": "https://github.com/lucasprag/vscode-teamdocs/blob/main/README.md",
+  "publisher": "TobiasHochguertel",
+  "homepage": "https://github.com/tobiashochguertel/vscode-teamdocs/blob/main/README.md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lucasprag/vscode-teamdocs"
+    "url": "https://github.com/tobiashochguertel/vscode-teamdocs"
   },
   "bugs": {
-    "url": "https://github.com/lucasprag/vscode-teamdocs/issues",
-    "email": "lucasprag.projects@gmail.com"
+    "url": "https://github.com/tobiashochguertel/vscode-teamdocs/issues",
+    "email": "tobias.hochguertel@googlemail.com"
   },
   "icon": "media/logo.png",
   "engines": {

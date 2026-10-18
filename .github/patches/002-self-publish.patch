@@ -1,0 +1,62 @@
+diff --git a/LICENSE.md b/LICENSE.md
+index aea34fe..733f4d1 100644
+--- a/LICENSE.md
++++ b/LICENSE.md
+@@ -1,6 +1,7 @@
+ MIT License
+ 
+ Copyright (c) 2024 Lucas Arantes
++Copyright (c) 2026 Tobias Hochgürtel
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+diff --git a/README.md b/README.md
+index 2bd1bbe..d660889 100644
+--- a/README.md
++++ b/README.md
+@@ -1,6 +1,6 @@
+ # TeamDocs
+ 
+-[TeamDocs](https://marketplace.visualstudio.com/items?itemName=lucasprag.teamdocs&ssr=false#overview) keeps your team's centralized documentation one click away in the Activity Bar — no matter which project you're working on.
++[TeamDocs](https://marketplace.visualstudio.com/items?itemName=TobiasHochguertel.teamdocs&ssr=false#overview) keeps your team's centralized documentation one click away in the Activity Bar — no matter which project you're working on.
+ 
+ Point it at any folder of Markdown files (e.g. a checked-out docs repo) and TeamDocs gives you a dedicated explorer and a quick-pick search, so you never have to leave your current project to look something up.
+ 
+diff --git a/package.json b/package.json
+index 7e56a86..93a807b 100644
+--- a/package.json
++++ b/package.json
+@@ -3,15 +3,15 @@
+   "displayName": "TeamDocs",
+   "description": "Your team's Markdown documentation, one click away in the Activity Bar — searchable from any project, no context switching.",
+   "version": "0.3.8",
+-  "publisher": "lucasprag",
+-  "homepage": "https://github.com/lucasprag/vscode-teamdocs/blob/main/README.md",
++  "publisher": "TobiasHochguertel",
++  "homepage": "https://github.com/tobiashochguertel/vscode-teamdocs/blob/main/README.md",
+   "repository": {
+     "type": "git",
+-    "url": "https://github.com/lucasprag/vscode-teamdocs"
++    "url": "https://github.com/tobiashochguertel/vscode-teamdocs"
+   },
+   "bugs": {
+-    "url": "https://github.com/lucasprag/vscode-teamdocs/issues",
+-    "email": "lucasprag.projects@gmail.com"
++    "url": "https://github.com/tobiashochguertel/vscode-teamdocs/issues",
++    "email": "tobias.hochguertel@googlemail.com"
+   },
+   "icon": "media/logo.png",
+   "engines": {
+diff --git a/src/extension.ts b/src/extension.ts
+index 880fe89..9b0d657 100644
+--- a/src/extension.ts
++++ b/src/extension.ts
+@@ -6,7 +6,7 @@ import { ReviewManager } from "./review";
+ 
+ export function activate(context: vscode.ExtensionContext) {
+   const review = new ReviewManager(context, {
+-    extensionId: "lucasprag.teamdocs",
++    extensionId: "TobiasHochguertel.teamdocs",
+     extensionName: "TeamDocs",
+     commandPrefix: "teamDocs.review",
+     gracePeriodDays: 14,

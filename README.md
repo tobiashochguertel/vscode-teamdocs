@@ -1,6 +1,6 @@
 # TeamDocs
 
-[TeamDocs](https://marketplace.visualstudio.com/items?itemName=lucasprag.teamdocs&ssr=false#overview) keeps your team's centralized documentation one click away in the Activity Bar — no matter which project you're working on.
+[TeamDocs](https://marketplace.visualstudio.com/items?itemName=TobiasHochguertel.teamdocs&ssr=false#overview) keeps your team's centralized documentation one click away in the Activity Bar — no matter which project you're working on.
 
 Point it at any folder of Markdown files (e.g. a checked-out docs repo) and TeamDocs gives you a dedicated explorer and a quick-pick search, so you never have to leave your current project to look something up.
 
