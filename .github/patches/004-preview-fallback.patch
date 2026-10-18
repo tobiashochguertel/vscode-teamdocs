@@ -1,0 +1,33 @@
+diff --git a/src/extension.ts b/src/extension.ts
+index 9b0d657..561a005 100644
+--- a/src/extension.ts
++++ b/src/extension.ts
+@@ -19,13 +19,22 @@ export function activate(context: vscode.ExtensionContext) {
+ 
+   vscode.window.registerTreeDataProvider("teamdocs", provider);
+ 
+-  vscode.commands.registerCommand("teamDocs.previewFile", function (resource) {
+-    if (isMarkdownFile(resource.path)) {
+-      vscode.commands.executeCommand("markdown.showPreview", resource);
+-    } else {
+-      vscode.commands.executeCommand("vscode.open", resource);
++  vscode.commands.registerCommand(
++    "teamDocs.previewFile",
++    async function (resource) {
++      // markdown.showPreview is missing when the built-in
++      // markdown-language-features extension is disabled (e.g. VS Code
++      // forks like Devin) — fall back to the plain text editor then.
++      const hasPreview = (
++        await vscode.commands.getCommands(true)
++      ).includes("markdown.showPreview");
++      if (isMarkdownFile(resource.path) && hasPreview) {
++        vscode.commands.executeCommand("markdown.showPreview", resource);
++      } else {
++        vscode.commands.executeCommand("vscode.open", resource);
++      }
+     }
+-  });
++  );
+ 
+   vscode.commands.registerCommand("teamDocs.openSettings", function () {
+     vscode.commands.executeCommand("workbench.action.openSettings", "teamdocs");
