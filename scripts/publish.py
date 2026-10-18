@@ -21,7 +21,7 @@ import typer
 REPO = Path(__file__).resolve().parent.parent
 
 OP_VSCE = "op://Personal/4pnlct4rtei26clohihwpbcq24/API Token"
-OP_OVSX = "op://Personal/l2cllee35cnvzukohidqjfwgcy/password"
+OP_OVSX = "op://Personal/mbx76cctzjkzltzdjocfyzmoaa/API Token"
 
 app = typer.Typer(help=__doc__)
 
