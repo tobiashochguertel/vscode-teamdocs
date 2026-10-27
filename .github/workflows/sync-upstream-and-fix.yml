@@ -52,7 +52,7 @@ jobs:
 
     steps:
       - name: Checkout fork main
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: main
           fetch-depth: 0
@@ -167,7 +167,7 @@ jobs:
 
     steps:
       - name: Checkout fork dev.patch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: dev.patch
           fetch-depth: 0
