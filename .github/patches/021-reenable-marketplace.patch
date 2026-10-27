@@ -1,0 +1,14 @@
+diff --git a/.github/workflows/publish.yml b/.github/workflows/publish.yml
+index f263a5d..0ced719 100644
+--- a/.github/workflows/publish.yml
++++ b/.github/workflows/publish.yml
+@@ -8,9 +8,6 @@ on:
+ jobs:
+   publish-marketplace:
+     runs-on: ubuntu-latest
+-    # Disabled: Microsoft VSID Concurrency rate-limit blocks publish —
+-    # re-enable when https://github.com/microsoft/vsmarketplace/issues/2256 is resolved.
+-    if: false
+     steps:
+       - uses: actions/checkout@v7
+       - uses: actions/setup-node@v7

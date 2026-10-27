@@ -1,0 +1,49 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index efe9917..1b302ea 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -4,6 +4,8 @@ All notable changes to this extension will be documented in this file following
+ 
+ ## [Unreleased]
+ 
++## [0.5.0] - 2026-10-27
++
+ ### Bug Fixes
+ 
+ - Classify dependabot diffs by upstream ownership; ignore TS major
+@@ -16,12 +18,14 @@ All notable changes to this extension will be documented in this file following
+ - Add patches 010-012 to FORK-STRATEGY table
+ - Fork banner + feature overview in README via patch 013
+ - Add DEVELOPMENT.md, reference it from AGENTS.md
++- Regenerate changelog via patch 019
+ 
+ ### Features
+ 
+ - Auto-convert Dependabot PRs to .patch files
+ - Git-cliff changelog automation (patch 014)
+ - Auto-refresh docs tree via patch 018
++- One-command changelog→patch automation (scripts/changelog-patch.sh, mise changelog:patch)
+ 
+ ### Miscellaneous
+ 
+@@ -38,6 +42,7 @@ All notable changes to this extension will be documented in this file following
+ - Mark dependabot+security todos done
+ - Gitignore .devin + upstream-author credit (patches 016, 017)
+ - Mark auto-refresh todo done
++- Plan release mechanism todos on kanban board
+ 
+ ## [0.3.8] - 2026-08-28
+ 
+diff --git a/package.json b/package.json
+index 8a71367..faf68e2 100644
+--- a/package.json
++++ b/package.json
+@@ -2,7 +2,7 @@
+   "name": "teamdocs",
+   "displayName": "TeamDocs",
+   "description": "Your team's Markdown documentation, one click away in the Activity Bar \u2014 searchable from any project, no context switching.",
+-  "version": "0.4.1",
++  "version": "0.5.0",
+   "publisher": "TobiasHochguertel",
+   "homepage": "https://github.com/tobiashochguertel/vscode-teamdocs/blob/main/README.md",
+   "repository": {

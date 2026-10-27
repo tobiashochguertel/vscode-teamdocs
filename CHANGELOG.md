@@ -4,6 +4,8 @@ All notable changes to this extension will be documented in this file following 
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-10-27
+
 ### Bug Fixes
 
 - Classify dependabot diffs by upstream ownership; ignore TS major
@@ -16,12 +18,14 @@ All notable changes to this extension will be documented in this file following 
 - Add patches 010-012 to FORK-STRATEGY table
 - Fork banner + feature overview in README via patch 013
 - Add DEVELOPMENT.md, reference it from AGENTS.md
+- Regenerate changelog via patch 019
 
 ### Features
 
 - Auto-convert Dependabot PRs to .patch files
 - Git-cliff changelog automation (patch 014)
 - Auto-refresh docs tree via patch 018
+- One-command changelog→patch automation (scripts/changelog-patch.sh, mise changelog:patch)
 
 ### Miscellaneous
 
@@ -38,6 +42,7 @@ All notable changes to this extension will be documented in this file following 
 - Mark dependabot+security todos done
 - Gitignore .devin + upstream-author credit (patches 016, 017)
 - Mark auto-refresh todo done
+- Plan release mechanism todos on kanban board
 
 ## [0.3.8] - 2026-08-28
 

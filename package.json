@@ -2,7 +2,7 @@
   "name": "teamdocs",
   "displayName": "TeamDocs",
   "description": "Your team's Markdown documentation, one click away in the Activity Bar \u2014 searchable from any project, no context switching.",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "publisher": "TobiasHochguertel",
   "homepage": "https://github.com/tobiashochguertel/vscode-teamdocs/blob/main/README.md",
   "repository": {
