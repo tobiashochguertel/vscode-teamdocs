@@ -140,5 +140,11 @@
     "flatted": "^3.4.2",
     "diff": "^8.0.3",
     "serialize-javascript": "^7.0.3"
-  }
+  },
+  "contributors": [
+    {
+      "name": "lucasprag",
+      "url": "https://github.com/lucasprag"
+    }
+  ]
 }

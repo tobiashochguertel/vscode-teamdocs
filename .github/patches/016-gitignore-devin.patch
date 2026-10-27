@@ -1,0 +1,11 @@
+diff --git a/.gitignore b/.gitignore
+index d943117..5b08789 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -4,3 +4,6 @@ node_modules
+ .vscode-test/
+ *.vsix
+ out-test/
++
++# Devin CLI session artifacts
++.devin/

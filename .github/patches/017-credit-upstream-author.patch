@@ -1,0 +1,17 @@
+diff --git a/package.json b/package.json
+index 81576f4..3fb7d63 100644
+--- a/package.json
++++ b/package.json
+@@ -140,5 +140,11 @@
+     "flatted": "^3.4.2",
+     "diff": "^8.0.3",
+     "serialize-javascript": "^7.0.3"
+-  }
++  },
++  "contributors": [
++    {
++      "name": "lucasprag",
++      "url": "https://github.com/lucasprag"
++    }
++  ]
+ }
