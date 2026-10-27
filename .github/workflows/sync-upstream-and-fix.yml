@@ -40,7 +40,7 @@ env:
     src/extension.ts
     tsconfig.json
     .github/workflows/publish.yml
-
+    .github/dependabot.yml
 jobs:
   # ── Stable: sync main from latest upstream release tag ────────────────────
   sync-main:

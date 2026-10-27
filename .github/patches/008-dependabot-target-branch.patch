@@ -1,0 +1,20 @@
+diff --git a/.github/dependabot.yml b/.github/dependabot.yml
+index 25691af..0057dff 100644
+--- a/.github/dependabot.yml
++++ b/.github/dependabot.yml
+@@ -2,6 +2,7 @@ version: 2
+ updates:
+   - package-ecosystem: npm
+     directory: "/"
++    target-branch: "dev.patch"
+     schedule:
+       interval: weekly
+     open-pull-requests-limit: 10
+@@ -17,6 +18,7 @@ updates:
+ 
+   - package-ecosystem: github-actions
+     directory: "/"
++    target-branch: "dev.patch"
+     schedule:
+       interval: weekly
+     groups:
