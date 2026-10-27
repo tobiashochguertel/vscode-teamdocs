@@ -27,3 +27,9 @@ This repository tracks tasks, follow-ups, and planned work in `project-todos.yam
 
      *(Or via uv: `uv run --project /path/to/project-todos-cli project-todos-cli validate`)*
 <!-- END: project-todos agent instructions -->
+
+## Development Workflow
+
+Humans and agents should read [`DEVELOPMENT.md`](DEVELOPMENT.md) before making changes — it covers the
+branch model (`dev.patch` is the develop branch), the revert-then-repatch `.patch` workflow, changelog
+regeneration via git-cliff, Dependabot PR auto-conversion, and the release process.
