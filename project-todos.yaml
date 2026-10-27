@@ -97,3 +97,15 @@ todos:
       date: '2026-10-27'
       time: 19:36:32
       timezone: +01:00
+  - id: credit-upstream-author
+    title: Credit upstream author in package.json
+    description: 'Add lucasprag as contributor (or author split: contributors array) in package.json so upstream authorship stays visible alongside publisher TobiasHochguertel. package.json is in PATCHED_FILES — change via a .patch.'
+    status: todo
+    priority: low
+    tags:
+      - attribution
+      - license
+    created:
+      date: '2026-10-27'
+      time: 19:38:15
+      timezone: +01:00
