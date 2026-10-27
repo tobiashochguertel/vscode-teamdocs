@@ -10,6 +10,9 @@ board:
         - update-repo-homepage
         - credit-upstream-author
         - auto-refresh-tree
+        - release-prep-workflow
+        - release-tagging-step
+        - reenable-marketplace-publish
     - name: in-progress
       todos:
         - close-dependabot-pr-1

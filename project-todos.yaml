@@ -151,3 +151,39 @@ todos:
       date: '2026-10-27'
       time: 19:43:28
       timezone: +01:00
+  - id: release-prep-workflow
+    title: Release-prep workflow (workflow_dispatch)
+    description: 'GitHub Actions workflow that prepares a release on dev.patch: computes next version via git cliff --bump, captures the package.json version bump as a .patch (pattern of 003/005), regenerates CHANGELOG.md moving ## [Unreleased] to a dated ## [X.Y.Z] section as a .patch, commits both, pushes. Outcome: one dispatch run produces a ready-to-tag release commit.'
+    status: todo
+    priority: medium
+    tags:
+      - release
+      - automation
+    created:
+      date: '2026-10-27'
+      time: 19:48:53
+      timezone: +01:00
+  - id: release-tagging-step
+    title: Release tagging + GitHub release step
+    description: "After release-prep lands: tag vX.Y.Z on dev.patch and create the GitHub release, which triggers publish.yml to push the .vsix to Open VSX (Marketplace stays disabled until Microsoft's VSID fix). Could be a second job in the same workflow or a manual step; decide during implementation."
+    status: todo
+    priority: medium
+    tags:
+      - release
+      - automation
+    created:
+      date: '2026-10-27'
+      time: 19:48:53
+      timezone: +01:00
+  - id: reenable-marketplace-publish
+    title: Re-enable VS Code Marketplace publish
+    description: "publish.yml's marketplace job is disabled (if: false) because of Microsoft's VSID concurrency rate-limit (microsoft/vsmarketplace#2256). Re-enable when resolved — remove the if: false and verify VSCE_PAT publish works."
+    status: todo
+    priority: low
+    tags:
+      - release
+      - marketplace
+    created:
+      date: '2026-10-27'
+      time: 19:48:53
+      timezone: +01:00
