@@ -85,3 +85,15 @@ todos:
       date: '2026-10-27'
       time: 19:35:26
       timezone: +01:00
+  - id: update-repo-homepage
+    title: Update GitHub repo homepage URL
+    description: "The fork's repo metadata still shows upstream's homepage https://lucasprag.com/extensions/teamdocs. Set it to the fork (e.g. the repo URL or fork's own page) via: gh repo edit tobiashochguertel/vscode-teamdocs --homepage <url>. Decide whether it should point to the marketplace/Open VSX listing instead."
+    status: todo
+    priority: low
+    tags:
+      - housekeeping
+      - github
+    created:
+      date: '2026-10-27'
+      time: 19:36:32
+      timezone: +01:00
