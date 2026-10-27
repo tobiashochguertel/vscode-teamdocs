@@ -1,0 +1,108 @@
+diff --git a/package-lock.json b/package-lock.json
+index 89e20f1..08ebf5d 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -1203,9 +1203,9 @@
+       }
+     },
+     "node_modules/@vscode/test-cli/node_modules/diff": {
+-      "version": "7.0.0",
+-      "resolved": "https://registry.npmjs.org/diff/-/diff-7.0.0.tgz",
+-      "integrity": "sha512-PJWHUb1RFevKCwaFA9RlG5tCd+FO5iRh9A8HEtkmBH2Li03iJriB6m6JIN4rGz3K3JLawI7/veA1xzRKP6ISBw==",
++      "version": "8.0.4",
++      "resolved": "https://registry.npmjs.org/diff/-/diff-8.0.4.tgz",
++      "integrity": "sha512-DPi0FmjiSU5EvQV0++GFDOJ9ASQUVFh5kD+OzOnYdi7n3Wpm9hWWGfB/O2blfHcMVTL5WkQXSnRiK9makhrcnw==",
+       "dev": true,
+       "license": "BSD-3-Clause",
+       "engines": {
+@@ -1433,16 +1433,6 @@
+         "url": "https://paulmillr.com/funding/"
+       }
+     },
+-    "node_modules/@vscode/test-cli/node_modules/serialize-javascript": {
+-      "version": "6.0.2",
+-      "resolved": "https://registry.npmjs.org/serialize-javascript/-/serialize-javascript-6.0.2.tgz",
+-      "integrity": "sha512-Saa1xPByTTq2gdeFZYLLo+RFE35NHZkAbqZeWNd3BpzppeVisAqpDjcp8dyf6uIvEqJRd46jemmyA4iFIeVk8g==",
+-      "dev": true,
+-      "license": "BSD-3-Clause",
+-      "dependencies": {
+-        "randombytes": "^2.1.0"
+-      }
+-    },
+     "node_modules/@vscode/test-cli/node_modules/string-width": {
+       "version": "4.2.3",
+       "resolved": "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz",
+@@ -1981,16 +1971,6 @@
+       "dev": true,
+       "license": "MIT"
+     },
+-    "node_modules/diff": {
+-      "version": "9.0.0",
+-      "resolved": "https://registry.npmjs.org/diff/-/diff-9.0.0.tgz",
+-      "integrity": "sha512-svtcdpS8CgJyqAjEQIXdb3OjhFVVYjzGAPO8WGCmRbrml64SPw/jJD4GoE98aR7r25A0XcgrK3F02yw9R/vhQw==",
+-      "dev": true,
+-      "license": "BSD-3-Clause",
+-      "engines": {
+-        "node": ">=0.3.1"
+-      }
+-    },
+     "node_modules/eastasianwidth": {
+       "version": "0.2.0",
+       "resolved": "https://registry.npmjs.org/eastasianwidth/-/eastasianwidth-0.2.0.tgz",
+@@ -2959,6 +2939,16 @@
+         "node": "^20.19.0 || >=22.12.0"
+       }
+     },
++    "node_modules/mocha/node_modules/diff": {
++      "version": "8.0.4",
++      "resolved": "https://registry.npmjs.org/diff/-/diff-8.0.4.tgz",
++      "integrity": "sha512-DPi0FmjiSU5EvQV0++GFDOJ9ASQUVFh5kD+OzOnYdi7n3Wpm9hWWGfB/O2blfHcMVTL5WkQXSnRiK9makhrcnw==",
++      "dev": true,
++      "license": "BSD-3-Clause",
++      "engines": {
++        "node": ">=0.3.1"
++      }
++    },
+     "node_modules/mocha/node_modules/supports-color": {
+       "version": "8.1.1",
+       "resolved": "https://registry.npmjs.org/supports-color/-/supports-color-8.1.1.tgz",
+@@ -3210,16 +3200,6 @@
+       "dev": true,
+       "license": "MIT"
+     },
+-    "node_modules/randombytes": {
+-      "version": "2.1.0",
+-      "resolved": "https://registry.npmjs.org/randombytes/-/randombytes-2.1.0.tgz",
+-      "integrity": "sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==",
+-      "dev": true,
+-      "license": "MIT",
+-      "dependencies": {
+-        "safe-buffer": "^5.1.0"
+-      }
+-    },
+     "node_modules/readable-stream": {
+       "version": "2.3.8",
+       "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-2.3.8.tgz",
+diff --git a/package.json b/package.json
+index fd33897..81576f4 100644
+--- a/package.json
++++ b/package.json
+@@ -1,7 +1,7 @@
+ {
+   "name": "teamdocs",
+   "displayName": "TeamDocs",
+-  "description": "Your team's Markdown documentation, one click away in the Activity Bar — searchable from any project, no context switching.",
++  "description": "Your team's Markdown documentation, one click away in the Activity Bar \u2014 searchable from any project, no context switching.",
+   "version": "0.4.1",
+   "publisher": "TobiasHochguertel",
+   "homepage": "https://github.com/tobiashochguertel/vscode-teamdocs/blob/main/README.md",
+@@ -137,6 +137,8 @@
+     "minimatch": "^10.2.6"
+   },
+   "overrides": {
+-    "flatted": "^3.4.2"
++    "flatted": "^3.4.2",
++    "diff": "^8.0.3",
++    "serialize-javascript": "^7.0.3"
+   }
+ }
