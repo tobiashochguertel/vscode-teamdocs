@@ -20,10 +20,17 @@ intended as upstream PRs (e.g. `feat/copy-path`).
 Modified upstream files live as `.patch` files under `.github/patches/` (applied in alphabetical
 order). New files are committed directly to `dev.patch` — they never need reverting.
 
-| #   | Patch                      | Content                                                        |
-| --- | -------------------------- | -------------------------------------------------------------- |
-| 001 | `001-copy-path.patch`      | Copy Path / Copy Relative Path commands + context menu + tests |
-| 002 | `002-self-publish.patch`   | Publisher `TobiasHochguertel`, fork URLs, review ID, copyright |
+| #   | Patch                               | Content                                                                 |
+| --- | ----------------------------------- | ----------------------------------------------------------------------- |
+| 001 | `001-copy-path.patch`               | Copy Path / Copy Relative Path commands + context menu + tests          |
+| 002 | `002-self-publish.patch`            | Publisher `TobiasHochguertel`, fork URLs, review ID, copyright          |
+| 003 | `003-version-0.4.0.patch`           | Fork version bump to 0.4.0                                              |
+| 004 | `004-preview-fallback.patch`        | Preview fallback when `markdown.showPreview` is unavailable             |
+| 005 | `005-version-0.4.1.patch`           | Fork version bump to 0.4.1                                              |
+| 006 | `006-parallel-publish.patch`        | Split publish.yml into marketplace/Open VSX jobs + workflow_dispatch    |
+| 007 | `007-dependabot-bumps.patch`        | Upstream dependabot PRs #8/#12/#13 (TypeScript 7 excluded)              |
+| 008 | `008-dependabot-target-branch.patch`| `target-branch: dev.patch` in dependabot.yml                            |
+| 009 | `009-readme-fork-docs.patch`        | README fork-maintenance section + review links to fork publisher        |
 
 Modified files are listed in `PATCHED_FILES` inside
 `.github/workflows/sync-upstream-and-fix.yml`. Keep it in sync when adding patches.
