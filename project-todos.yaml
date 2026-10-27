@@ -1,0 +1,63 @@
+schema:
+  version: 3
+  file: project-todos.schema.json
+  description: vscode-teamdocs (fork) todos
+todos:
+  - id: close-dependabot-pr-1
+    title: 'Close Dependabot PR #1 (brace-expansion)'
+    description: Security PR targeting main; dev.patch already has 5.0.12. Should auto-close as already-applied once the dependabot rebase lands; close manually if it stalls.
+    status: todo
+    priority: medium
+    tags:
+      - dependabot
+      - security
+    created:
+      date: '2026-10-27'
+      time: 19:09:52
+      timezone: +01:00
+  - id: resolve-security-alerts
+    title: Resolve 3 Dependabot security alerts
+    description: 2 high, 1 moderate — transitive deps of @vscode/test-cli (diff, serialize-javascript). Dev-only tooling. Fixing requires a breaking downgrade of @vscode/test-cli or upstream dependency updates.
+    status: todo
+    priority: medium
+    tags:
+      - security
+      - dependencies
+    created:
+      date: '2026-10-27'
+      time: 19:09:52
+      timezone: +01:00
+  - id: typescript-7-upgrade
+    title: Revisit TypeScript 7 upgrade
+    description: typescript-eslint requires typescript <6.1.0 — TS7 excluded from patch 007 and ignored via patch 011. Upgrade once typescript-eslint adds support.
+    status: todo
+    priority: low
+    tags:
+      - dependencies
+      - typescript
+    created:
+      date: '2026-10-27'
+      time: 19:09:53
+      timezone: +01:00
+  - id: gitignore-devin-artifacts
+    title: Gitignore .devin/ session artifacts
+    description: Untracked .devin/logs + .devin/reports files keep showing in git status. Add .devin/ to .gitignore — requires a patch since .gitignore is a PATCHED_FILES entry.
+    status: todo
+    priority: low
+    tags:
+      - housekeeping
+    created:
+      date: '2026-10-27'
+      time: 19:09:53
+      timezone: +01:00
+  - id: drop-stale-stash
+    title: Drop leftover stash entry
+    description: stash@{0} holds only duplicate .devin/ log files from the patch workflow testing.
+    status: todo
+    priority: low
+    tags:
+      - housekeeping
+    created:
+      date: '2026-10-27'
+      time: 19:09:53
+      timezone: +01:00
