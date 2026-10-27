@@ -57,6 +57,10 @@ description = "Publish .vsix to VS Code Marketplace + Open VSX"
 run = "./scripts/publish.py"
 depends = ["deploy:package"]
 
+[tasks."changelog:patch"]
+description = "Regenerate changelog AND capture it as a .patch on dev.patch (one command)"
+run = "scripts/changelog-patch.sh"
+
 [tasks."changelog"]
 description = "Regenerate CHANGELOG.md Unreleased section (run on a feature branch, then genpatch)"
 run = "scripts/update-changelog.sh"

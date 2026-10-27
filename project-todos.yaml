@@ -47,6 +47,16 @@ todos:
       date: '2026-10-27'
       time: 19:09:53
       timezone: +01:00
+    comments:
+      - date:
+          date: '2026-10-27'
+          time: 19:46:30
+          timezone: +01:00
+        text: 'Checked 2026-10-27: typescript-eslint@8.72.1 still requires typescript <6.1.0 — cannot upgrade yet. Recheck when a new typescript-eslint major lands.'
+    updated:
+      date: '2026-10-27'
+      time: 19:46:30
+      timezone: +01:00
   - id: gitignore-devin-artifacts
     title: Gitignore .devin/ session artifacts
     description: Untracked .devin/logs + .devin/reports files keep showing in git status. Add .devin/ to .gitignore — requires a patch since .gitignore is a PATCHED_FILES entry.
@@ -65,7 +75,7 @@ todos:
   - id: drop-stale-stash
     title: Drop leftover stash entry
     description: stash@{0} holds only duplicate .devin/ log files from the patch workflow testing.
-    status: todo
+    status: done
     priority: low
     tags:
       - housekeeping
@@ -73,10 +83,14 @@ todos:
       date: '2026-10-27'
       time: 19:09:53
       timezone: +01:00
+    updated:
+      date: '2026-10-27'
+      time: 19:46:10
+      timezone: +01:00
   - id: automate-changelog-patches
     title: Automate git-cliff changelog into the patch flow
     description: 'Today update-changelog.sh must run on a feature branch and be captured via fork-genpatch manually (CHANGELOG.md is in PATCHED_FILES). Fold changelog regeneration into an automated step — e.g. a release-prep task or a workflow that regenerates ## [Unreleased], writes a NNN-changelog.patch, applies and commits it — similar to the dependabot-to-patch automation.'
-    status: todo
+    status: done
     priority: low
     tags:
       - changelog
@@ -84,6 +98,10 @@ todos:
     created:
       date: '2026-10-27'
       time: 19:34:25
+      timezone: +01:00
+    updated:
+      date: '2026-10-27'
+      time: 19:47:01
       timezone: +01:00
   - id: auto-refresh-tree
     title: Auto-refresh + manual refresh for Team Docs explorer
