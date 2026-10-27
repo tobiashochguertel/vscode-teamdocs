@@ -1,0 +1,35 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 6900618..c66f73e 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -4,8 +4,28 @@ All notable changes to this extension will be documented in this file following
+ 
+ ## [Unreleased]
+ 
+-### Added
+-- `Copy Path` and `Copy Relative Path` context menu items on files and folders in the Team Docs explorer.
++### Bug Fixes
++
++- Classify dependabot diffs by upstream ownership; ignore TS major
++
++### Documentation
++
++- Document fork workflow in README via patch 009
++- Bring FORK-STRATEGY patch table up to date (001-009)
++- Add patches 010-012 to FORK-STRATEGY table
++- Fork banner + feature overview in README via patch 013
++
++### Features
++
++- Auto-convert Dependabot PRs to .patch files
++
++### Miscellaneous
++
++- Integrate parallel publish via patch 006; add publish.yml to PATCHED_FILES
++- Integrate upstream dependabot PRs via patch 007
++- Point dependabot PRs at dev.patch via patch 008
++- Integrate dependabot PR #2 via .patch [skip ci]
++- Add project-todos tracker and agent instructions
+ 
+ ## [0.3.8] - 2026-08-28
+ 

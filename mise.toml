@@ -56,3 +56,11 @@ depends = ["check"]
 description = "Publish .vsix to VS Code Marketplace + Open VSX"
 run = "./scripts/publish.py"
 depends = ["deploy:package"]
+
+[tasks."changelog"]
+description = "Regenerate CHANGELOG.md Unreleased section (run on a feature branch, then genpatch)"
+run = "scripts/update-changelog.sh"
+
+[tasks."changelog:preview"]
+description = "Preview unreleased changelog entries"
+run = "git cliff --unreleased"
