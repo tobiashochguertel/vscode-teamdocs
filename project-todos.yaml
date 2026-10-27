@@ -61,3 +61,15 @@ todos:
       date: '2026-10-27'
       time: 19:09:53
       timezone: +01:00
+  - id: automate-changelog-patches
+    title: Automate git-cliff changelog into the patch flow
+    description: 'Today update-changelog.sh must run on a feature branch and be captured via fork-genpatch manually (CHANGELOG.md is in PATCHED_FILES). Fold changelog regeneration into an automated step — e.g. a release-prep task or a workflow that regenerates ## [Unreleased], writes a NNN-changelog.patch, applies and commits it — similar to the dependabot-to-patch automation.'
+    status: todo
+    priority: low
+    tags:
+      - changelog
+      - automation
+    created:
+      date: '2026-10-27'
+      time: 19:34:25
+      timezone: +01:00
