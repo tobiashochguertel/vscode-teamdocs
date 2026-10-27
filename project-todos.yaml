@@ -22,7 +22,7 @@ todos:
   - id: resolve-security-alerts
     title: Resolve 3 Dependabot security alerts
     description: 2 high, 1 moderate — transitive deps of @vscode/test-cli (diff, serialize-javascript). Dev-only tooling. Fixing requires a breaking downgrade of @vscode/test-cli or upstream dependency updates.
-    status: todo
+    status: done
     priority: medium
     tags:
       - security
@@ -30,6 +30,10 @@ todos:
     created:
       date: '2026-10-27'
       time: 19:09:52
+      timezone: +01:00
+    updated:
+      date: '2026-10-27'
+      time: 19:42:49
       timezone: +01:00
   - id: typescript-7-upgrade
     title: Revisit TypeScript 7 upgrade
