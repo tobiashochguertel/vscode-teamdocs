@@ -121,27 +121,31 @@ def main() -> int:
     merge_base = git("merge-base", args.base, args.pr_ref).strip()
     name_status = git("diff", "--name-status", merge_base, args.pr_ref).splitlines()
 
-    patched, new_files = [], []
+    # Only upstream-owned files go into the patch (they must be reverted before
+    # merging). Files the fork owns — whether added or modified by the PR — are
+    # materialised and committed directly. Fall back to the merge base when
+    # upstream is not fetched — a dependabot PR only touches upstream files.
+    upstream_ref = args.upstream_ref if git_ok("rev-parse", "--verify", args.upstream_ref) else merge_base
+
+    patched, new_files, deleted_files = [], [], []
     for line in name_status:
         if not line.strip():
             continue
         parts = line.split("\t")
         status, path = parts[0], parts[-1]
-        if status.startswith("A"):
-            new_files.append(path)
-        else:
+        if git_ok("cat-file", "-e", f"{upstream_ref}:{path}"):
             patched.append(path)
+        elif status.startswith("D"):
+            deleted_files.append(path)
+        else:
+            new_files.append(path)
 
-    if not patched and not new_files:
+    upstream_owned = patched
+
+    if not patched and not new_files and not deleted_files:
         print(json.dumps({"status": "empty", "patch": None, "patched_files": [],
                           "new_files": [], "added_to_patched_files": []}))
         return 0
-
-    # Only upstream-owned files need PATCHED_FILES entries (they must be
-    # reverted before merging). Fall back to the merge base when upstream
-    # is not fetched — a dependabot PR only touches upstream files anyway.
-    upstream_ref = args.upstream_ref if git_ok("rev-parse", "--verify", args.upstream_ref) else merge_base
-    upstream_owned = [f for f in patched if git_ok("cat-file", "-e", f"{upstream_ref}:{f}")]
 
     summary = {"status": "created", "patch": None, "patched_files": patched,
                "new_files": new_files, "added_to_patched_files": []}
@@ -168,9 +172,12 @@ def main() -> int:
                               "added_to_patched_files": []}))
             return 2
 
-    # Materialise new files from the PR head so the caller can commit them.
+    # Materialise fork-owned files from the PR head and remove fork-owned
+    # deletions so the caller can commit them directly.
     for f in new_files:
         git("checkout", args.pr_ref, "--", f)
+    for f in deleted_files:
+        git("rm", "-q", "--ignore-unmatch", f)
 
     if args.update_patched_files and upstream_owned:
         summary["added_to_patched_files"] = add_to_patched_files(

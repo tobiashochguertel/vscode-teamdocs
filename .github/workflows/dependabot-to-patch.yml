@@ -64,9 +64,11 @@ jobs:
       - name: Apply, verify and push patch
         if: steps.gen.outputs.status == 'created'
         run: |
-          git apply --check "${{ steps.gen.outputs.patch }}"
-          git apply "${{ steps.gen.outputs.patch }}"
-          git apply --reverse --check "${{ steps.gen.outputs.patch }}"   # idempotency
+          if [ -n "${{ steps.gen.outputs.patch }}" ]; then
+            git apply --check "${{ steps.gen.outputs.patch }}"
+            git apply "${{ steps.gen.outputs.patch }}"
+            git apply --reverse --check "${{ steps.gen.outputs.patch }}"   # idempotency
+          fi
           git add -A
           git commit -m "chore: integrate dependabot PR #${{ github.event.pull_request.number }} via .patch [skip ci]"
           git push origin dev.patch
