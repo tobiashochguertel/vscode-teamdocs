@@ -50,13 +50,17 @@ todos:
   - id: gitignore-devin-artifacts
     title: Gitignore .devin/ session artifacts
     description: Untracked .devin/logs + .devin/reports files keep showing in git status. Add .devin/ to .gitignore — requires a patch since .gitignore is a PATCHED_FILES entry.
-    status: todo
+    status: done
     priority: low
     tags:
       - housekeeping
     created:
       date: '2026-10-27'
       time: 19:09:53
+      timezone: +01:00
+    updated:
+      date: '2026-10-27'
+      time: 19:43:27
       timezone: +01:00
   - id: drop-stale-stash
     title: Drop leftover stash entry
@@ -84,7 +88,7 @@ todos:
   - id: auto-refresh-tree
     title: Auto-refresh + manual refresh for Team Docs explorer
     description: "New feature: watch the configured docs folder and refresh the tree automatically on file changes (vscode.workspace.createFileSystemWatcher), plus a 'Team Docs: Refresh' command for manual refresh. Expected: the explorer reflects adds/renames/deletes without reopening VS Code."
-    status: todo
+    status: done
     priority: medium
     tags:
       - feature
@@ -93,10 +97,14 @@ todos:
       date: '2026-10-27'
       time: 19:35:26
       timezone: +01:00
+    updated:
+      date: '2026-10-27'
+      time: 19:44:36
+      timezone: +01:00
   - id: update-repo-homepage
     title: Update GitHub repo homepage URL
     description: "The fork's repo metadata still shows upstream's homepage https://lucasprag.com/extensions/teamdocs. Set it to the fork (e.g. the repo URL or fork's own page) via: gh repo edit tobiashochguertel/vscode-teamdocs --homepage <url>. Decide whether it should point to the marketplace/Open VSX listing instead."
-    status: todo
+    status: done
     priority: low
     tags:
       - housekeeping
@@ -105,10 +113,14 @@ todos:
       date: '2026-10-27'
       time: 19:36:32
       timezone: +01:00
+    updated:
+      date: '2026-10-27'
+      time: 19:43:28
+      timezone: +01:00
   - id: credit-upstream-author
     title: Credit upstream author in package.json
     description: 'Add lucasprag as contributor (or author split: contributors array) in package.json so upstream authorship stays visible alongside publisher TobiasHochguertel. package.json is in PATCHED_FILES — change via a .patch.'
-    status: todo
+    status: done
     priority: low
     tags:
       - attribution
@@ -116,4 +128,8 @@ todos:
     created:
       date: '2026-10-27'
       time: 19:38:15
+      timezone: +01:00
+    updated:
+      date: '2026-10-27'
+      time: 19:43:28
       timezone: +01:00
