@@ -72,14 +72,31 @@ TeamDocs also honors your VS Code `files.exclude` setting to filter what shows u
 3. Open VS Code settings and set `teamdocs.path_to_docs_folder` to that folder (e.g. `~/Docs/engineering`).
 4. Click the **Team Docs** icon in the Activity Bar — your docs are now available in every project.
 
+## Fork maintenance
+
+This repository is a fork of [lucasprag/vscode-teamdocs](https://github.com/lucasprag/vscode-teamdocs),
+published as `TobiasHochguertel.teamdocs`.
+
+- **`dev.patch` is the develop branch.** All fork work lands here: new files as direct commits,
+  changes to upstream files as `.patch` files under `.github/patches/` (applied in alphabetical order).
+- **A daily sync** (`.github/workflows/sync-upstream-and-fix.yml`) reverts patched files to the
+  upstream version, merges `upstream/main`, and re-applies every patch — so the fork stays cleanly
+  mergeable instead of drifting into conflicts.
+- **`main`** tracks upstream release tags and is the stable lane that well-tested patches get promoted to.
+- **Releases are cut from `dev.patch`.** Publishing a GitHub release runs
+  `.github/workflows/publish.yml`, which pushes the `.vsix` to Open VSX — and to the VS Code
+  Marketplace once Microsoft's publish rate-limit issue is resolved.
+
+See [`.github/FORK-STRATEGY.md`](.github/FORK-STRATEGY.md) for the full patch workflow.
+
 ## Free to use — powered by your reviews
 
 **TeamDocs is free.** It's MIT-licensed, fully functional out of the box, with no feature gating, no license keys, and nothing to buy — now or later.
 
 There is one thing that genuinely helps: **a review**. Marketplace ratings are how small extensions get discovered, and they cost you nothing but a minute.
 
-- [Rate on the VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=lucasprag.teamdocs&ssr=false#review-details)
-- [Rate on Open VSX](https://open-vsx.org/extension/lucasprag/teamdocs/reviews)
+- [Rate on the VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=TobiasHochguertel.teamdocs&ssr=false#review-details)
+- [Rate on Open VSX](https://open-vsx.org/extension/TobiasHochguertel/teamdocs/reviews)
 
 You can also run **`Team Docs: Leave a Review`** from the command palette at any time.
 
