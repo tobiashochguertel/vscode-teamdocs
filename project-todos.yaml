@@ -166,7 +166,7 @@ todos:
   - id: release-tagging-step
     title: Release tagging + GitHub release step
     description: "After release-prep lands: tag vX.Y.Z on dev.patch and create the GitHub release, which triggers publish.yml to push the .vsix to Open VSX (Marketplace stays disabled until Microsoft's VSID fix). Could be a second job in the same workflow or a manual step; decide during implementation."
-    status: todo
+    status: done
     priority: medium
     tags:
       - release
@@ -174,6 +174,10 @@ todos:
     created:
       date: '2026-10-27'
       time: 19:48:53
+      timezone: +01:00
+    updated:
+      date: '2026-10-27'
+      time: 19:53:20
       timezone: +01:00
   - id: reenable-marketplace-publish
     title: Re-enable VS Code Marketplace publish
@@ -186,4 +190,14 @@ todos:
     created:
       date: '2026-10-27'
       time: 19:48:53
+      timezone: +01:00
+    comments:
+      - date:
+          date: '2026-10-27'
+          time: 19:53:21
+          timezone: +01:00
+        text: 'v0.5.0 publish attempt 2026-10-27: still blocked — VSID Concurrency rate-limit unchanged (microsoft/vsmarketplace#2256). Re-disabled via patch 022.'
+    updated:
+      date: '2026-10-27'
+      time: 19:53:21
       timezone: +01:00
