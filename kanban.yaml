@@ -1,0 +1,21 @@
+board:
+  columns:
+    - name: backlog
+      todos:
+        - resolve-security-alerts
+        - typescript-7-upgrade
+        - gitignore-devin-artifacts
+        - drop-stale-stash
+        - automate-changelog-patches
+        - update-repo-homepage
+        - credit-upstream-author
+        - auto-refresh-tree
+    - name: in-progress
+      todos:
+        - close-dependabot-pr-1
+      wip_limit: 3
+      started: true
+    - name: done
+      todos: []
+      started: true
+      finished: true

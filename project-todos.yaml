@@ -6,7 +6,7 @@ todos:
   - id: close-dependabot-pr-1
     title: 'Close Dependabot PR #1 (brace-expansion)'
     description: Security PR targeting main; dev.patch already has 5.0.12. Should auto-close as already-applied once the dependabot rebase lands; close manually if it stalls.
-    status: todo
+    status: in-progress
     priority: medium
     tags:
       - dependabot
@@ -14,6 +14,10 @@ todos:
     created:
       date: '2026-10-27'
       time: 19:09:52
+      timezone: +01:00
+    updated:
+      date: '2026-10-27'
+      time: 19:39:53
       timezone: +01:00
   - id: resolve-security-alerts
     title: Resolve 3 Dependabot security alerts
