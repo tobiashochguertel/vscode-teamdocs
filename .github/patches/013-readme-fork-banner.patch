@@ -1,0 +1,31 @@
+diff --git a/README.md b/README.md
+index e19fc16..8c7a2a1 100644
+--- a/README.md
++++ b/README.md
+@@ -1,5 +1,9 @@
+ # TeamDocs
+ 
++> **This is a fork** of [lucasprag/vscode-teamdocs](https://github.com/lucasprag/vscode-teamdocs),
++> published as `TobiasHochguertel.teamdocs`. Releases are cut from the `dev.patch` branch —
++> see [Fork maintenance](#fork-maintenance) for how this fork works and what it adds.
++
+ [TeamDocs](https://marketplace.visualstudio.com/items?itemName=TobiasHochguertel.teamdocs&ssr=false#overview) keeps your team's centralized documentation one click away in the Activity Bar — no matter which project you're working on.
+ 
+ Point it at any folder of Markdown files (e.g. a checked-out docs repo) and TeamDocs gives you a dedicated explorer and a quick-pick search, so you never have to leave your current project to look something up.
+@@ -77,6 +81,16 @@ TeamDocs also honors your VS Code `files.exclude` setting to filter what shows u
+ This repository is a fork of [lucasprag/vscode-teamdocs](https://github.com/lucasprag/vscode-teamdocs),
+ published as `TobiasHochguertel.teamdocs`.
+ 
++### What this fork adds
++
++- **Copy Path / Copy Relative Path** — context-menu commands on the Team Docs explorer
++  (the feature this fork started for).
++- **Rendered-preview fallback** — still works when `markdown.showPreview` is unavailable.
++- **Dual-registry publishing** — automated releases to Open VSX as `TobiasHochguertel.teamdocs`
++  (VS Code Marketplace re-enables once Microsoft's publish rate-limit is resolved).
++- **Fork infrastructure** — daily upstream sync, Dependabot → `.patch` automation, REUSE
++  compliance, and CI-built `.vsix` artifacts.
++
+ - **`dev.patch` is the develop branch.** All fork work lands here: new files as direct commits,
+   changes to upstream files as `.patch` files under `.github/patches/` (applied in alphabetical order).
+ - **A daily sync** (`.github/workflows/sync-upstream-and-fix.yml`) reverts patched files to the
