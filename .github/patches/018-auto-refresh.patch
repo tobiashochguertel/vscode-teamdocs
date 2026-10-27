@@ -1,0 +1,111 @@
+diff --git a/package.json b/package.json
+index 3fb7d63..8a71367 100644
+--- a/package.json
++++ b/package.json
+@@ -47,6 +47,11 @@
+         "command": "teamDocs.copyRelativePath",
+         "title": "Copy Relative Path",
+         "category": "Team Docs"
++      },
++      {
++        "command": "teamDocs.refresh",
++        "title": "Refresh",
++        "category": "Team Docs"
+       }
+     ],
+     "menus": {
+diff --git a/project-todos.yaml b/project-todos.yaml
+index d020a35..aea877d 100644
+--- a/project-todos.yaml
++++ b/project-todos.yaml
+@@ -50,7 +50,7 @@ todos:
+   - id: gitignore-devin-artifacts
+     title: Gitignore .devin/ session artifacts
+     description: Untracked .devin/logs + .devin/reports files keep showing in git status. Add .devin/ to .gitignore — requires a patch since .gitignore is a PATCHED_FILES entry.
+-    status: todo
++    status: done
+     priority: low
+     tags:
+       - housekeeping
+@@ -58,6 +58,10 @@ todos:
+       date: '2026-10-27'
+       time: 19:09:53
+       timezone: +01:00
++    updated:
++      date: '2026-10-27'
++      time: 19:43:27
++      timezone: +01:00
+   - id: drop-stale-stash
+     title: Drop leftover stash entry
+     description: stash@{0} holds only duplicate .devin/ log files from the patch workflow testing.
+@@ -96,7 +100,7 @@ todos:
+   - id: update-repo-homepage
+     title: Update GitHub repo homepage URL
+     description: "The fork's repo metadata still shows upstream's homepage https://lucasprag.com/extensions/teamdocs. Set it to the fork (e.g. the repo URL or fork's own page) via: gh repo edit tobiashochguertel/vscode-teamdocs --homepage <url>. Decide whether it should point to the marketplace/Open VSX listing instead."
+-    status: todo
++    status: done
+     priority: low
+     tags:
+       - housekeeping
+@@ -105,10 +109,14 @@ todos:
+       date: '2026-10-27'
+       time: 19:36:32
+       timezone: +01:00
++    updated:
++      date: '2026-10-27'
++      time: 19:43:28
++      timezone: +01:00
+   - id: credit-upstream-author
+     title: Credit upstream author in package.json
+     description: 'Add lucasprag as contributor (or author split: contributors array) in package.json so upstream authorship stays visible alongside publisher TobiasHochguertel. package.json is in PATCHED_FILES — change via a .patch.'
+-    status: todo
++    status: done
+     priority: low
+     tags:
+       - attribution
+@@ -117,3 +125,7 @@ todos:
+       date: '2026-10-27'
+       time: 19:38:15
+       timezone: +01:00
++    updated:
++      date: '2026-10-27'
++      time: 19:43:28
++      timezone: +01:00
+diff --git a/src/extension.ts b/src/extension.ts
+index 561a005..a663943 100644
+--- a/src/extension.ts
++++ b/src/extension.ts
+@@ -95,10 +95,33 @@ export function activate(context: vscode.ExtensionContext) {
+     }
+   });
+ 
++  vscode.commands.registerCommand("teamDocs.refresh", function () {
++    provider.refresh();
++  });
++
++  let watcher: vscode.FileSystemWatcher | undefined;
++  const watchDocs = function () {
++    watcher?.dispose();
++    const root = getRootPath();
++    if (root === "") {
++      return;
++    }
++    watcher = vscode.workspace.createFileSystemWatcher(
++      new vscode.RelativePattern(root, "**/*")
++    );
++    watcher.onDidCreate(() => provider.refresh());
++    watcher.onDidChange(() => provider.refresh());
++    watcher.onDidDelete(() => provider.refresh());
++    context.subscriptions.push(watcher);
++  };
++
++  watchDocs();
++
+   context.subscriptions.push(
+     vscode.workspace.onDidChangeConfiguration(function (e) {
+       if (e.affectsConfiguration("teamdocs")) {
+         provider.refresh();
++        watchDocs();
+       }
+     })
+   );

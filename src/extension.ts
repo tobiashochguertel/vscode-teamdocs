@@ -95,10 +95,33 @@ export function activate(context: vscode.ExtensionContext) {
     }
   });
 
+  vscode.commands.registerCommand("teamDocs.refresh", function () {
+    provider.refresh();
+  });
+
+  let watcher: vscode.FileSystemWatcher | undefined;
+  const watchDocs = function () {
+    watcher?.dispose();
+    const root = getRootPath();
+    if (root === "") {
+      return;
+    }
+    watcher = vscode.workspace.createFileSystemWatcher(
+      new vscode.RelativePattern(root, "**/*")
+    );
+    watcher.onDidCreate(() => provider.refresh());
+    watcher.onDidChange(() => provider.refresh());
+    watcher.onDidDelete(() => provider.refresh());
+    context.subscriptions.push(watcher);
+  };
+
+  watchDocs();
+
   context.subscriptions.push(
     vscode.workspace.onDidChangeConfiguration(function (e) {
       if (e.affectsConfiguration("teamdocs")) {
         provider.refresh();
+        watchDocs();
       }
     })
   );

@@ -47,6 +47,11 @@
         "command": "teamDocs.copyRelativePath",
         "title": "Copy Relative Path",
         "category": "Team Docs"
+      },
+      {
+        "command": "teamDocs.refresh",
+        "title": "Refresh",
+        "category": "Team Docs"
       }
     ],
     "menus": {
