@@ -1,0 +1,14 @@
+diff --git a/README.md b/README.md
+index 370e13d..e19fc16 100644
+--- a/README.md
++++ b/README.md
+@@ -82,6 +82,9 @@ published as `TobiasHochguertel.teamdocs`.
+ - **A daily sync** (`.github/workflows/sync-upstream-and-fix.yml`) reverts patched files to the
+   upstream version, merges `upstream/main`, and re-applies every patch — so the fork stays cleanly
+   mergeable instead of drifting into conflicts.
++- **Dependabot PRs are converted to patches automatically** —
++  `.github/workflows/dependabot-to-patch.yml` turns incoming bot diffs into `.patch` commits
++  on `dev.patch` and closes the original PR.
+ - **`main`** tracks upstream release tags and is the stable lane that well-tested patches get promoted to.
+ - **Releases are cut from `dev.patch`.** Publishing a GitHub release runs
+   `.github/workflows/publish.yml`, which pushes the `.vsix` to Open VSX — and to the VS Code

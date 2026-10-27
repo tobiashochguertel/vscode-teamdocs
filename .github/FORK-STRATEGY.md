@@ -43,6 +43,20 @@ Modified files are listed in `PATCHED_FILES` inside
 2. Merges upstream (fails loudly on conflicts in unpatched files)
 3. Re-applies all `.patch` files, commits, pushes
 
+## Dependabot PRs
+
+`dependabot.yml` targets `dev.patch`, but merging a Dependabot PR directly is **not durable**:
+the next sync reverts `PATCHED_FILES` and re-applies only the patch set, silently dropping
+the bump. `.github/workflows/dependabot-to-patch.yml` therefore converts incoming Dependabot
+PRs automatically:
+
+1. `dependabot_to_patch.py` diffs the PR head against its merge base with `dev.patch` and
+   writes `.github/patches/NNN-dependabot-<slug>.patch`.
+2. The workflow applies the patch, verifies idempotency, commits, pushes `dev.patch`, and
+   closes the original PR.
+3. If the diff does not apply cleanly, it comments on the PR and leaves it open —
+   regenerate with `@dependabot rebase` or integrate manually as a `.patch` file.
+
 ## Adding a patch
 
 ```bash

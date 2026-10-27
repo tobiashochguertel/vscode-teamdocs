@@ -1,0 +1,92 @@
+name: Dependabot → Patch
+
+# Converts incoming Dependabot PRs into .github/patches/*.patch commits on
+# dev.patch. Dependabot edits real files (package.json, lockfiles, workflow
+# YAML); merging its PRs directly would be silently reverted by the next
+# upstream sync, so the diff is captured as a patch instead.
+#
+# pull_request_target is required: `pull_request` runs triggered by Dependabot
+# receive a read-only GITHUB_TOKEN and cannot push or comment. This is safe
+# here because the job only *diffs* the PR head — it never checks out or
+# executes Dependabot's code. Checkout is always the trusted dev.patch branch.
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize]
+    branches: [dev.patch, main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  # Serialise all conversions: two concurrent runs could pick the same patch
+  # number or race the dev.patch push.
+  group: dependabot-to-patch
+  cancel-in-progress: false
+
+jobs:
+  convert:
+    name: Convert Dependabot PR to .patch on dev.patch
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout dev.patch
+        uses: actions/checkout@v6
+        with:
+          ref: dev.patch
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch upstream and PR head
+        run: |
+          git remote add upstream https://github.com/lucasprag/vscode-teamdocs.git || true
+          git fetch upstream main --quiet
+          git fetch origin "pull/${{ github.event.pull_request.number }}/head"
+
+      - name: Generate .patch from PR diff
+        id: gen
+        run: |
+          python3 .github/scripts/dependabot_to_patch.py \
+            --pr-ref FETCH_HEAD \
+            --pr-branch "${{ github.event.pull_request.head.ref }}" \
+            --base HEAD \
+            --update-patched-files > /tmp/gen.json || true
+          cat /tmp/gen.json
+          status=$(jq -r '.status // "error"' /tmp/gen.json)
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          echo "patch=$(jq -r '.patch // empty' /tmp/gen.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Apply, verify and push patch
+        if: steps.gen.outputs.status == 'created'
+        run: |
+          git apply --check "${{ steps.gen.outputs.patch }}"
+          git apply "${{ steps.gen.outputs.patch }}"
+          git apply --reverse --check "${{ steps.gen.outputs.patch }}"   # idempotency
+          git add -A
+          git commit -m "chore: integrate dependabot PR #${{ github.event.pull_request.number }} via .patch [skip ci]"
+          git push origin dev.patch
+
+      - name: Close the Dependabot PR
+        if: steps.gen.outputs.status == 'created' || steps.gen.outputs.status == 'already-applied' || steps.gen.outputs.status == 'empty'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PATCH: ${{ steps.gen.outputs.patch }}
+        run: |
+          gh pr close "${{ github.event.pull_request.number }}" \
+            --repo "${{ github.repository }}" \
+            --comment "Integrated into \`dev.patch\` via \`${PATCH:-the patch set}\` — this fork keeps changes to upstream files in \`.github/patches/\` so the upstream sync can revert and re-apply them. Closing; the update itself is on dev.patch."
+
+      - name: Flag unmergeable diff for manual integration
+        if: steps.gen.outputs.status == 'conflict' || steps.gen.outputs.status == 'error'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment "${{ github.event.pull_request.number }}" \
+            --repo "${{ github.repository }}" \
+            --body "⚠️ This diff does not apply cleanly onto \`dev.patch\` (probably based on an outdated tree). Leaving the PR open — regenerate with \`@dependabot rebase\` or integrate manually as a \`.github/patches/NNN-*.patch\`."
+          exit 1
