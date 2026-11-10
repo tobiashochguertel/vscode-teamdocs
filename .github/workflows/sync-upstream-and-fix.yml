@@ -37,6 +37,7 @@ env:
     README.md
     package.json
     package-lock.json
+    src/explorer.ts
     src/extension.ts
     tsconfig.json
     .github/workflows/publish.yml

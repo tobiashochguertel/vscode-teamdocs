@@ -20,6 +20,7 @@ A dedicated **Team Docs** icon is added to the Activity Bar. Click it to see the
 - Folders are listed before files, and entries are sorted alphabetically.
 - Files and folders matching VS Code's `files.exclude` setting are hidden automatically (e.g. `.git`, `node_modules`).
 - Right-click any file or folder to copy its absolute or relative path to the clipboard.
+- Broken symbolic links are shown with a warning marker instead of hiding the whole tree.
 
 ![Showing the team documentation](media/docs-readme.png)
 
@@ -90,6 +91,19 @@ published as `TobiasHochguertel.teamdocs`.
   (VS Code Marketplace re-enables once Microsoft's publish rate-limit is resolved).
 - **Fork infrastructure** — daily upstream sync, Dependabot → `.patch` automation, REUSE
   compliance, and CI-built `.vsix` artifacts.
+
+### Bugs fixed in this fork
+
+These bugs are fixed here but still present in the upstream extension:
+
+- **A broken symbolic link emptied the explorer.** When the docs folder contained a
+  symlink whose target no longer exists, the tree failed to load and the panel showed
+  nothing. This fork still lists every working file, folder, and symlink, marks broken
+  links with a warning icon and a "broken link" badge, and shows a one-time VS Code
+  notification naming them.
+- **Clicking a file failed when `markdown.showPreview` is unavailable.** VS Code forks
+  without the built-in Markdown extension could not open docs; this fork falls back to
+  the plain text editor.
 
 - **`dev.patch` is the develop branch.** All fork work lands here: new files as direct commits,
   changes to upstream files as `.patch` files under `.github/patches/` (applied in alphabetical order).

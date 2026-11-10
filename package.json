@@ -121,7 +121,7 @@
     "typecheck": "tsc -p ./ --noEmit && tsc -p tsconfig.test.json --noEmit",
     "pretest": "npm run typecheck && npm run lint && npm run compile:test",
     "test": "vscode-test",
-    "test:unit": "esbuild test/unit/copypath.test.ts --bundle --platform=node --format=cjs --outfile=out-test/unit/copypath.test.cjs && node --test out-test/unit/*.test.cjs",
+    "test:unit": "rm -f out-test/unit/*.cjs && esbuild test/unit/*.test.ts --bundle --platform=node --format=cjs --outdir=out-test/unit --out-extension:.js=.cjs && node --test out-test/unit/*.test.cjs",
     "lint": "eslint src"
   },
   "devDependencies": {

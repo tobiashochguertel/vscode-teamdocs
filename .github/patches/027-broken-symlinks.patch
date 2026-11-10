@@ -1,0 +1,186 @@
+diff --git a/README.md b/README.md
+index 8c7a2a1..4efb9e3 100644
+--- a/README.md
++++ b/README.md
+@@ -20,6 +20,7 @@ A dedicated **Team Docs** icon is added to the Activity Bar. Click it to see the
+ - Folders are listed before files, and entries are sorted alphabetically.
+ - Files and folders matching VS Code's `files.exclude` setting are hidden automatically (e.g. `.git`, `node_modules`).
+ - Right-click any file or folder to copy its absolute or relative path to the clipboard.
++- Broken symbolic links are shown with a warning marker instead of hiding the whole tree.
+ 
+ ![Showing the team documentation](media/docs-readme.png)
+ 
+@@ -91,6 +92,19 @@ published as `TobiasHochguertel.teamdocs`.
+ - **Fork infrastructure** — daily upstream sync, Dependabot → `.patch` automation, REUSE
+   compliance, and CI-built `.vsix` artifacts.
+ 
++### Bugs fixed in this fork
++
++These bugs are fixed here but still present in the upstream extension:
++
++- **A broken symbolic link emptied the explorer.** When the docs folder contained a
++  symlink whose target no longer exists, the tree failed to load and the panel showed
++  nothing. This fork still lists every working file, folder, and symlink, marks broken
++  links with a warning icon and a "broken link" badge, and shows a one-time VS Code
++  notification naming them.
++- **Clicking a file failed when `markdown.showPreview` is unavailable.** VS Code forks
++  without the built-in Markdown extension could not open docs; this fork falls back to
++  the plain text editor.
++
+ - **`dev.patch` is the develop branch.** All fork work lands here: new files as direct commits,
+   changes to upstream files as `.patch` files under `.github/patches/` (applied in alphabetical order).
+ - **A daily sync** (`.github/workflows/sync-upstream-and-fix.yml`) reverts patched files to the
+diff --git a/package.json b/package.json
+index faf68e2..b660439 100644
+--- a/package.json
++++ b/package.json
+@@ -121,7 +121,7 @@
+     "typecheck": "tsc -p ./ --noEmit && tsc -p tsconfig.test.json --noEmit",
+     "pretest": "npm run typecheck && npm run lint && npm run compile:test",
+     "test": "vscode-test",
+-    "test:unit": "esbuild test/unit/copypath.test.ts --bundle --platform=node --format=cjs --outfile=out-test/unit/copypath.test.cjs && node --test out-test/unit/*.test.cjs",
++    "test:unit": "rm -f out-test/unit/*.cjs && esbuild test/unit/*.test.ts --bundle --platform=node --format=cjs --outdir=out-test/unit --out-extension:.js=.cjs && node --test out-test/unit/*.test.cjs",
+     "lint": "eslint src"
+   },
+   "devDependencies": {
+diff --git a/src/explorer.ts b/src/explorer.ts
+index fc5146b..0471101 100644
+--- a/src/explorer.ts
++++ b/src/explorer.ts
+@@ -1,17 +1,24 @@
+ "use strict";
+ 
+-import { readdirSync, statSync, existsSync } from "fs";
+ import { join } from "path";
+ import {
+   Event,
+   EventEmitter,
+   TreeItem,
+   FileType,
++  ThemeColor,
++  ThemeIcon,
+   TreeItemCollapsibleState,
+   Uri,
+   TreeDataProvider,
++  window,
+ } from "vscode";
+-import { minimatch } from "minimatch";
++import {
++  DOC_ENTRY_BROKEN_SYMLINK,
++  DOC_ENTRY_DIRECTORY,
++  DocEntry,
++  readDocDirectory,
++} from "./docdir";
+ import { getRootPath, getExcludePatterns } from "./util";
+ 
+ export class TeamDocsExplorerProvider implements TreeDataProvider<any> {
+@@ -20,6 +27,10 @@ export class TeamDocsExplorerProvider implements TreeDataProvider<any> {
+   readonly onDidChangeTreeData: Event<any | undefined | null | void> =
+     this._onDidChangeTreeData.event;
+ 
++  // Paths of broken symlinks the user was already notified about — a warning
++  // fires once per link per session, not on every refresh.
++  private reportedBrokenLinks = new Set<string>();
++
+   refresh(): void {
+     this._onDidChangeTreeData.fire(undefined);
+   }
+@@ -32,6 +43,19 @@ export class TeamDocsExplorerProvider implements TreeDataProvider<any> {
+         : TreeItemCollapsibleState.None
+     );
+ 
++    if (element.brokenLink) {
++      treeItem.contextValue = "brokenSymlink";
++      treeItem.description = "broken link";
++      treeItem.iconPath = new ThemeIcon(
++        "warning",
++        new ThemeColor("list.warningForeground")
++      );
++      treeItem.tooltip = element.target
++        ? `Broken symbolic link → ${element.target}`
++        : "Broken symbolic link (target missing)";
++      return treeItem;
++    }
++
+     if (element.type === FileType.File) {
+       treeItem.command = {
+         command: "teamDocs.previewFile",
+@@ -62,42 +86,45 @@ export class TeamDocsExplorerProvider implements TreeDataProvider<any> {
+   }
+ 
+   readDirectory(root: string, folder: string): Array<any> {
+-    if (!existsSync(folder)) {
+-      return [];
+-    }
+-
+-    const excludePatterns = getExcludePatterns();
+-
+-    const children: any[] = [];
+-    readdirSync(folder, "utf-8").forEach(function (filename: string | Buffer) {
+-      const file = join(folder, filename.toString());
+-      const relative = file.replace(root, "");
+-
+-      // Check if the file matches any of the exclude patterns
+-      if (excludePatterns.some((pattern) => minimatch(relative, pattern))) {
+-        return;
+-      }
+-
+-      const stat = statSync(file);
+-      const type = stat.isDirectory() ? FileType.Directory : FileType.File;
+-      const item = {
+-        uri: Uri.file(file),
+-        relative: relative,
+-        name: filename,
+-        type: type,
++    const entries = readDocDirectory(root, folder, getExcludePatterns());
++    this.warnAboutBrokenLinks(entries);
++
++    return entries.map(function (entry) {
++      return {
++        uri: Uri.file(entry.path),
++        relative: entry.relative,
++        name: entry.name,
++        type:
++          entry.kind === DOC_ENTRY_DIRECTORY
++            ? FileType.Directory
++            : FileType.File,
++        brokenLink: entry.kind === DOC_ENTRY_BROKEN_SYMLINK,
++        target: entry.target,
+       };
+-
+-      children.push(item);
+     });
++  }
+ 
+-    children.sort(function (a, b) {
+-      if (a.type === b.type) {
+-        return a.relative.localeCompare(b.relative);
+-      }
+-
+-      return a.type === FileType.Directory ? -1 : 1;
+-    });
++  private warnAboutBrokenLinks(entries: DocEntry[]): void {
++    const fresh = entries.filter(
++      (entry) =>
++        entry.kind === DOC_ENTRY_BROKEN_SYMLINK &&
++        !this.reportedBrokenLinks.has(entry.path)
++    );
++    if (!fresh.length) {
++      return;
++    }
+ 
+-    return children;
++    fresh.forEach((entry) => this.reportedBrokenLinks.add(entry.path));
++
++    const names = fresh
++      .slice(0, 3)
++      .map((entry) => entry.name)
++      .join(", ");
++    const more = fresh.length > 3 ? ` and ${fresh.length - 3} more` : "";
++    window.showWarningMessage(
++      `TeamDocs: broken symbolic link${
++        fresh.length > 1 ? "s" : ""
++      } in the docs folder: ${names}${more}`
++    );
+   }
+ }

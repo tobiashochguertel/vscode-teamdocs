@@ -19,6 +19,14 @@ suite("TeamDocs explorer click flow (e2e)", function () {
     fs.writeFileSync(path.join(docsDir, "notes.txt"), "plain\n");
     fs.mkdirSync(path.join(docsDir, "sub"));
     fs.writeFileSync(path.join(docsDir, "sub", "nested.md"), "# Nested\n");
+    fs.symlinkSync(
+      path.join(docsDir, "guide.md"),
+      path.join(docsDir, "linked.md")
+    );
+    fs.symlinkSync(
+      path.join(docsDir, "missing.md"),
+      path.join(docsDir, "broken.md")
+    );
 
     await vscode.workspace
       .getConfiguration("teamdocs")
@@ -52,6 +60,46 @@ suite("TeamDocs explorer click flow (e2e)", function () {
     assert.ok(names.includes("sub"), "folder missing");
     assert.ok(names.includes("guide.md"), "file missing");
     assert.ok(names.includes("notes.txt"), "file missing");
+  });
+
+  test("a broken symlink does not hide the other entries", async () => {
+    const provider = new TeamDocsExplorerProvider();
+    const children = await provider.getChildren(undefined);
+    const names = children.map((c: any) => c.name);
+    for (const expected of ["sub", "guide.md", "notes.txt", "broken.md"]) {
+      assert.ok(names.includes(expected), `${expected} missing`);
+    }
+  });
+
+  test("broken symlinks are marked with a warning icon and no command", async () => {
+    const provider = new TeamDocsExplorerProvider();
+    const children = await provider.getChildren(undefined);
+    const broken = children.find((c: any) => c.name === "broken.md");
+    assert.ok(broken, "broken.md missing");
+    assert.ok(broken.brokenLink, "entry not flagged as broken");
+
+    const treeItem = provider.getTreeItem(broken);
+    assert.equal(treeItem.contextValue, "brokenSymlink");
+    assert.equal(treeItem.description, "broken link");
+    assert.ok(treeItem.iconPath instanceof vscode.ThemeIcon);
+    assert.equal(treeItem.command, undefined);
+    assert.ok(
+      String(treeItem.tooltip).includes("missing.md"),
+      `tooltip should name the target, got ${treeItem.tooltip}`
+    );
+  });
+
+  test("working symlinks behave like their targets", async () => {
+    const provider = new TeamDocsExplorerProvider();
+    const children = await provider.getChildren(undefined);
+    const linked = children.find((c: any) => c.name === "linked.md");
+    assert.ok(linked, "linked.md missing");
+    assert.equal(linked.type, vscode.FileType.File);
+    assert.ok(!linked.brokenLink);
+
+    const treeItem = provider.getTreeItem(linked);
+    assert.equal(treeItem.contextValue, "file");
+    assert.equal(treeItem.command?.command, "teamDocs.previewFile");
   });
 
   test("clicking a markdown file opens the markdown preview", async () => {

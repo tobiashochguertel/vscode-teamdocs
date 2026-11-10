@@ -1,17 +1,24 @@
 "use strict";
 
-import { readdirSync, statSync, existsSync } from "fs";
 import { join } from "path";
 import {
   Event,
   EventEmitter,
   TreeItem,
   FileType,
+  ThemeColor,
+  ThemeIcon,
   TreeItemCollapsibleState,
   Uri,
   TreeDataProvider,
+  window,
 } from "vscode";
-import { minimatch } from "minimatch";
+import {
+  DOC_ENTRY_BROKEN_SYMLINK,
+  DOC_ENTRY_DIRECTORY,
+  DocEntry,
+  readDocDirectory,
+} from "./docdir";
 import { getRootPath, getExcludePatterns } from "./util";
 
 export class TeamDocsExplorerProvider implements TreeDataProvider<any> {
@@ -19,6 +26,10 @@ export class TeamDocsExplorerProvider implements TreeDataProvider<any> {
     new EventEmitter<any | undefined | null | void>();
   readonly onDidChangeTreeData: Event<any | undefined | null | void> =
     this._onDidChangeTreeData.event;
+
+  // Paths of broken symlinks the user was already notified about — a warning
+  // fires once per link per session, not on every refresh.
+  private reportedBrokenLinks = new Set<string>();
 
   refresh(): void {
     this._onDidChangeTreeData.fire(undefined);
@@ -31,6 +42,19 @@ export class TeamDocsExplorerProvider implements TreeDataProvider<any> {
         ? TreeItemCollapsibleState.Collapsed
         : TreeItemCollapsibleState.None
     );
+
+    if (element.brokenLink) {
+      treeItem.contextValue = "brokenSymlink";
+      treeItem.description = "broken link";
+      treeItem.iconPath = new ThemeIcon(
+        "warning",
+        new ThemeColor("list.warningForeground")
+      );
+      treeItem.tooltip = element.target
+        ? `Broken symbolic link → ${element.target}`
+        : "Broken symbolic link (target missing)";
+      return treeItem;
+    }
 
     if (element.type === FileType.File) {
       treeItem.command = {
@@ -62,42 +86,45 @@ export class TeamDocsExplorerProvider implements TreeDataProvider<any> {
   }
 
   readDirectory(root: string, folder: string): Array<any> {
-    if (!existsSync(folder)) {
-      return [];
+    const entries = readDocDirectory(root, folder, getExcludePatterns());
+    this.warnAboutBrokenLinks(entries);
+
+    return entries.map(function (entry) {
+      return {
+        uri: Uri.file(entry.path),
+        relative: entry.relative,
+        name: entry.name,
+        type:
+          entry.kind === DOC_ENTRY_DIRECTORY
+            ? FileType.Directory
+            : FileType.File,
+        brokenLink: entry.kind === DOC_ENTRY_BROKEN_SYMLINK,
+        target: entry.target,
+      };
+    });
+  }
+
+  private warnAboutBrokenLinks(entries: DocEntry[]): void {
+    const fresh = entries.filter(
+      (entry) =>
+        entry.kind === DOC_ENTRY_BROKEN_SYMLINK &&
+        !this.reportedBrokenLinks.has(entry.path)
+    );
+    if (!fresh.length) {
+      return;
     }
 
-    const excludePatterns = getExcludePatterns();
+    fresh.forEach((entry) => this.reportedBrokenLinks.add(entry.path));
 
-    const children: any[] = [];
-    readdirSync(folder, "utf-8").forEach(function (filename: string | Buffer) {
-      const file = join(folder, filename.toString());
-      const relative = file.replace(root, "");
-
-      // Check if the file matches any of the exclude patterns
-      if (excludePatterns.some((pattern) => minimatch(relative, pattern))) {
-        return;
-      }
-
-      const stat = statSync(file);
-      const type = stat.isDirectory() ? FileType.Directory : FileType.File;
-      const item = {
-        uri: Uri.file(file),
-        relative: relative,
-        name: filename,
-        type: type,
-      };
-
-      children.push(item);
-    });
-
-    children.sort(function (a, b) {
-      if (a.type === b.type) {
-        return a.relative.localeCompare(b.relative);
-      }
-
-      return a.type === FileType.Directory ? -1 : 1;
-    });
-
-    return children;
+    const names = fresh
+      .slice(0, 3)
+      .map((entry) => entry.name)
+      .join(", ");
+    const more = fresh.length > 3 ? ` and ${fresh.length - 3} more` : "";
+    window.showWarningMessage(
+      `TeamDocs: broken symbolic link${
+        fresh.length > 1 ? "s" : ""
+      } in the docs folder: ${names}${more}`
+    );
   }
 }
