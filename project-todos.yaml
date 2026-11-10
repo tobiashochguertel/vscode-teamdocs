@@ -201,3 +201,19 @@ todos:
       date: '2026-10-27'
       time: 19:53:21
       timezone: +01:00
+  - id: broken-symlink-explorer-fix
+    title: Explorer survives broken symlinks in the docs folder
+    description: A broken symlink emptied the whole Team Docs panel (statSync ENOENT). Fixed via patch 023 — entries classified from readdir Dirents, broken links listed with a warning badge + tooltip and a one-time notification; README notes fork-fixed bugs. src/explorer.ts added to PATCHED_FILES.
+    status: done
+    priority: high
+    tags:
+      - bugfix
+      - explorer
+    created:
+      date: '2026-11-10'
+      time: 14:49:10
+      timezone: +01:00
+    updated:
+      date: '2026-11-10'
+      time: 14:49:10
+      timezone: +01:00
