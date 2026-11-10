@@ -105,7 +105,7 @@
     "typescript-eslint": "^8.59.3"
   },
   "dependencies": {
-    "minimatch": "^10.2.5"
+    "minimatch": "^11.0.5"
   },
   "overrides": {
     "flatted": "^3.4.2"
