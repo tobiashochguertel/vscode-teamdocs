@@ -1,0 +1,25 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 1b302ea..93f9830 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -4,6 +4,20 @@ All notable changes to this extension will be documented in this file following
+ 
+ ## [Unreleased]
+ 
++### Bug Fixes
++
++- Keep explorer working with broken symlinks via patch 027
++
++### Miscellaneous
++
++- Re-disable marketplace publish via patch 022 (VSID block persists)
++- Update release todos
++- Integrate dependabot PR #3 via .patch [skip ci]
++- Integrate dependabot PR #4 via .patch [skip ci]
++- Integrate dependabot PR #5 via .patch [skip ci]
++- Integrate dependabot PR #6 via .patch [skip ci]
++- Mark broken-symlink explorer fix todo done
++
+ ## [0.5.0] - 2026-10-27
+ 
+ ### Bug Fixes
