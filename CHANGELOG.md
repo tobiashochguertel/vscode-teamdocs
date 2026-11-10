@@ -4,6 +4,27 @@ All notable changes to this extension will be documented in this file following 
 
 ## [Unreleased]
 
+## [0.5.1] - 2026-11-10
+
+### Bug Fixes
+
+- Keep explorer working with broken symlinks via patch 027
+- Drop project-todos.yaml hunk from patch 018
+
+### Documentation
+
+- Regenerate changelog via patch 028
+
+### Miscellaneous
+
+- Re-disable marketplace publish via patch 022 (VSID block persists)
+- Update release todos
+- Integrate dependabot PR #3 via .patch [skip ci]
+- Integrate dependabot PR #4 via .patch [skip ci]
+- Integrate dependabot PR #5 via .patch [skip ci]
+- Integrate dependabot PR #6 via .patch [skip ci]
+- Mark broken-symlink explorer fix todo done
+
 ### Bug Fixes
 
 - Keep explorer working with broken symlinks via patch 027
