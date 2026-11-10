@@ -4,6 +4,14 @@ All notable changes to this extension will be documented in this file following 
 
 ## [Unreleased]
 
+## [0.5.2] - 2026-11-10
+
+### Security
+
+- Resolved all 3 open Dependabot alerts: `brace-expansion` <5.0.12 on the default branch (CVE-2026-102276, CVE-2026-102277, CVE-2026-102278 — DoS via uncontrolled recursion and quadratic-time expansion).
+- Bumped the `minimatch` production dependency to ^11.0.5 (GHSA-g3hv-75wg-m249, glob-parts amplification DoS). The bundled extension and the default branch now both report `npm audit --omit=dev` = 0 vulnerabilities.
+- Pinned `@types/vscode` to `engines.vscode` and added it to dependabot's ignore list so publish can't be broken by a types bump again.
+
 ## [0.5.1] - 2026-11-10
 
 ### Bug Fixes
