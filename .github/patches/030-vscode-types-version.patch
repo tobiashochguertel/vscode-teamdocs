@@ -1,0 +1,55 @@
+diff --git a/.github/dependabot.yml b/.github/dependabot.yml
+index 470185f..ad57e2d 100644
+--- a/.github/dependabot.yml
++++ b/.github/dependabot.yml
+@@ -11,6 +11,10 @@ updates:
+       # whole dependabot job fail with dependency_file_not_resolvable.
+       - dependency-name: "typescript"
+         update-types: ["version-update:semver-major"]
++      # @types/vscode must stay aligned with engines.vscode (the minimum
++      # supported VS Code version) — any bump, not just major, makes
++      # publish-vscode-extension fail with a version mismatch.
++      - dependency-name: "@types/vscode"
+     groups:
+       dev-dependencies:
+         dependency-type: development
+diff --git a/package-lock.json b/package-lock.json
+index 09739af..39a9a19 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -1,19 +1,19 @@
+ {
+   "name": "teamdocs",
+-  "version": "0.5.0",
++  "version": "0.5.1",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "teamdocs",
+-      "version": "0.5.0",
++      "version": "0.5.1",
+       "dependencies": {
+         "minimatch": "^11.0.5"
+       },
+       "devDependencies": {
+         "@types/mocha": "^10.0.10",
+         "@types/node": "^26.6.6",
+-        "@types/vscode": "^1.145.0",
++        "@types/vscode": "^1.125.0",
+         "@typescript-eslint/eslint-plugin": "^8.63.0",
+         "@typescript-eslint/parser": "^8.63.0",
+         "@vscode/test-cli": "^0.0.15",
+diff --git a/package.json b/package.json
+index 6be33c7..0775d85 100644
+--- a/package.json
++++ b/package.json
+@@ -127,7 +127,7 @@
+   "devDependencies": {
+     "@types/mocha": "^10.0.10",
+     "@types/node": "^26.6.6",
+-    "@types/vscode": "^1.145.0",
++    "@types/vscode": "^1.125.0",
+     "@typescript-eslint/eslint-plugin": "^8.63.0",
+     "@typescript-eslint/parser": "^8.63.0",
+     "@vscode/test-cli": "^0.0.15",

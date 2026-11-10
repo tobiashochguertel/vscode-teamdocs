@@ -11,6 +11,10 @@ updates:
       # whole dependabot job fail with dependency_file_not_resolvable.
       - dependency-name: "typescript"
         update-types: ["version-update:semver-major"]
+      # @types/vscode must stay aligned with engines.vscode (the minimum
+      # supported VS Code version) — any bump, not just major, makes
+      # publish-vscode-extension fail with a version mismatch.
+      - dependency-name: "@types/vscode"
     groups:
       dev-dependencies:
         dependency-type: development
