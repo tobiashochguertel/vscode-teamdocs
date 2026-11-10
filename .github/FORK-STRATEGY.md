@@ -40,6 +40,7 @@ order). New files are committed directly to `dev.patch` — they never need reve
 | 028 | `028-changelog.patch`             | Regenerated Unreleased changelog |
 | 029 | `029-release-0.5.1.patch`         | Fork version bump to 0.5.1 + versioned changelog section |
 | 030 | `030-vscode-types-version.patch`  | Pin `@types/vscode` to `engines.vscode`; ignore it in dependabot |
+| 031 | `031-release-0.5.2.patch`         | Fork version bump to 0.5.2 + versioned changelog section |
 
 Modified files are listed in `PATCHED_FILES` inside
 `.github/workflows/sync-upstream-and-fix.yml`. Keep it in sync when adding patches.
